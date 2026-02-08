@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Wanderluxe</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="{{ url_for('index') }}" class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+            
+           <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('packages') }}">Destinations</a></li>
+                <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                {% if session.user_id %}
+                    <span class="user-greeting">{{ session.user_name }}</span>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-login">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-signup">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-login">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-signup">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header about-header">
+        <div class="container">
+        
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-section">
+        <div class="container">
+            <!-- Our Story -->
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <p>Founded with a passion for travel and a deep love for India's rich cultural heritage, Wanderluxe has been helping travelers discover the incredible beauty of Bharat since our inception.</p>
+                    <p>From the sacred ghats of Varanasi to the snow-capped peaks of Manali, from the pristine beaches of Goa to the majestic forts of Rajasthan, we curate unforgettable journeys that blend spirituality, adventure, and luxury.</p>
+                    <p>Our mission is simple: to create meaningful travel experiences that connect you with India's soul while ensuring comfort, safety, and exceptional service every step of the way.</p>
+                </div>
+                <div class="about-image">
+                    <img src="{{ url_for('static', filename='images/hero-bg.jpg') }}" alt="Our Story" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600'">
+                </div>
+            </div>
+
+            <!-- Our Values -->
+            <div class="values-section">
+                <h2 class="section-title">Our Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">🎯</div>
+                        <h3>Excellence</h3>
+                        <p>We strive for excellence in every detail, from handpicked accommodations to expertly crafted itineraries.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🤝</div>
+                        <h3>Trust</h3>
+                        <p>Your trust is our foundation. We ensure transparency, reliability, and honest communication at all times.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🌟</div>
+                        <h3>Authenticity</h3>
+                        <p>We showcase the real India, connecting you with local culture, traditions, and genuine experiences.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">💚</div>
+                        <h3>Sustainability</h3>
+                        <p>We promote responsible tourism that respects local communities and preserves natural beauty.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Us -->
+            <div class="why-choose-section">
+                <h2 class="section-title">Why Choose Wanderluxe?</h2>
+                <div class="why-grid">
+                    <div class="why-item">
+                        <div class="why-number">01</div>
+                        <h3>Expert Local Guides</h3>
+                        <p>Our knowledgeable guides bring destinations to life with fascinating stories and insider knowledge.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">02</div>
+                        <h3>Handpicked Experiences</h3>
+                        <p>Every tour is carefully curated to showcase the best of each destination, from hidden gems to iconic landmarks.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">03</div>
+                        <h3>Best Price Guarantee</h3>
+                        <p>Enjoy competitive prices without compromising on quality. No hidden fees, just transparent pricing.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">04</div>
+                        <h3>24/7 Support</h3>
+                        <p>Our dedicated support team is available round the clock to assist you before, during, and after your journey.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">05</div>
+                        <h3>Flexible Booking</h3>
+                        <p>Easy cancellation policies and flexible payment options give you peace of mind when planning your trip.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">06</div>
+                        <h3>Safe & Secure</h3>
+                        <p>Your safety is our priority. All our partners are verified and our tours follow strict safety protocols.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <h2 class="section-title">Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image">
+                          <img src="{{ url_for('static', filename='images/profile jaisi.jpg') }}"  alt="Team Member">
+                        </div>
+                        <h3>Piyush Tripathi</h3>
+                        <p class="member-role">Founder & CEO</p>
+                        <p>Passionate traveler with 15+ years of experience in the tourism industry.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                           <img src="{{ url_for('static', filename='images/kashish.jpg') }}" alt="Team Member">
+                        </div>
+                        <h3>Kashish Mishra</h3>
+                        <p class="member-role">Head of Operations</p>
+                        <p>Ensuring smooth operations and exceptional customer experiences.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300" alt="Team Member">
+                        </div>
+                        <h3>Sanjit Varma</h3>
+                        <p class="member-role">Travel Expert</p>
+                        <p>Specializing in spiritual and cultural tours across India.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300" alt="Team Member">
+                        </div>
+                        <h3>Nikhil Gupta</h3>
+                        <p class="member-role">Customer Success Manager</p>
+                        <p>Dedicated to making every journey memorable and hassle-free.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h3>10,000+</h3>
+                        <p>Happy Travelers</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>50+</h3>
+                        <p>Destinations Covered</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>98%</h3>
+                        <p>Customer Satisfaction</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>5 Years</h3>
+                        <p>Industry Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Start Your Journey?</h2>
+            <p>Explore our curated packages and discover the India you've always dreamed of</p>
+            <a href="{{ url_for('packages') }}" class="btn btn-signup">Browse Packages</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+                    <p>Discover the spiritual and scenic beauty of India with expertly curated tour packages.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual Tours</a></li>
+                        <li><a href="{{ url_for('packages') }}?category=Hill Station">Hill Stations</a></li>
+                        <li><a href="{{ url_for('packages') }}">All Destinations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                       <li>📧 kashishmishra4025@gmail.com</li>
+                        <li>📞 +91 8591417011</li>
+                        <li>📍 Mumbai, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wanderluxe. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

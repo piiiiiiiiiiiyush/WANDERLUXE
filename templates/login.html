@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Wanderluxe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                   <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+                <h2>Welcome Back!</h2>
+                <p>Login to continue your journey</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+           <form method="POST" class="auth-form">
+    <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" name="email" required placeholder="your@email.com">
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Enter your password">
+    </div>
+
+    <div class="form-options">
+        <label class="checkbox-label">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot-link">Forgot Password?</a>
+    </div>
+
+    <!-- NEW: 2 LOGIN BUTTONS -->
+    <div class="login-type-buttons">
+        <button type="submit" name="login_type" value="customer" class="btn btn-customer">
+            <span class="btn-icon">👤</span>
+            <span class="btn-text">Login as Customer</span>
+        </button>
+        <button type="submit" name="login_type" value="admin" class="btn btn-admin">
+            <span class="btn-icon">🔧</span>
+            <span class="btn-text">Login as Admin</span>
+        </button>
+    </div>
+</form>
+
+            <div class="auth-divider">
+                <span>OR</span>
+            </div>
+
+            <div class="social-auth">
+                <button class="social-btn google-btn">
+                    <img src="{{url_for('static', filename='images/icons/Google.png')}}" class="social-icon" alt="Google">
+                    Continue with Google
+                </button>
+                <button class="social-btn facebook-btn">
+                    <img src="{{url_for('static', filename='images/icons/facbook.png')}}" class="social-icon" alt="Facebook">
+                    Continue with Facebook
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+                <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Packages - Wanderluxe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+           <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('packages') }}">Destinations</a></li>
+                <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                {% if session.user_id %}
+                    <span class="user-greeting">Welcome, {{ session.user_name }}!</span>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-login">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-signup">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-login">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-signup">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Explore Our Packages</h1>
+            <p>Discover amazing destinations across India</p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <a href="{{ url_for('packages') }}" class="filter-btn {% if not request.args.get('category') %}active{% endif %}">
+                    All Packages
+                </a>
+                <a href="{{ url_for('packages') }}?category=Spiritual" class="filter-btn {% if request.args.get('category') == 'Spiritual' %}active{% endif %}">
+                    🕉️ Spiritual
+                </a>
+                <a href="{{ url_for('packages') }}?category=Hill Station" class="filter-btn {% if request.args.get('category') == 'Hill Station' %}active{% endif %}">
+                    🏔️ Hill Stations
+                </a>
+                <a href="{{ url_for('packages') }}?category=Beach" class="filter-btn {% if request.args.get('category') == 'Beach' %}active{% endif %}">
+                    🏖️ Beaches
+                </a>
+                <a href="{{ url_for('packages') }}?category=Cultural" class="filter-btn {% if request.args.get('category') == 'Cultural' %}active{% endif %}">
+                    🛕 Cultural
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Grid -->
+    <section class="packages-section">
+        <div class="container">
+            <div class="packages-grid">
+                {% for package in packages %}
+                <div class="package-card">
+                    <div class="package-image">
+                        <img src="{{ url_for('static', filename='images/' + package[7]) }}" 
+                             alt="{{ package[1] }}"
+                             onerror="this.src='https://in.pinterest.com/pin/154529830959059034/'">
+                        <div class="package-badge">{{ package[2] }}</div>
+                    </div>
+                    <div class="package-content">
+                        <h3>{{ package[1] }}</h3>
+                        <p class="package-destination">📍 {{ package[3] }}</p>
+                        <p class="package-description">{{ package[6] }}</p>
+                        <div class="package-highlights">
+                            {% for highlight in package[8].split('|')[:3] %}
+                            <span class="highlight-tag">{{ highlight }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="package-footer">
+                            <div class="package-price">
+                                <span class="price">₹{{ package[5] }}</span>
+                                <span class="duration">{{ package[4] }}D/{{ package[4]-1 }}N</span>
+                            </div>
+                            <a href="{{ url_for('package_details', package_id=package[0]) }}" class="btn-view">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                  <div class="logo">
+                        <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+                    <p>Discover the spiritual and scenic beauty of India with expertly curated tour packages.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual Tours</a></li>
+                        <li><a href="{{ url_for('packages') }}?category=Hill Station">Hill Stations</a></li>
+                        <li><a href="{{ url_for('packages') }}?category=Beach">Beach Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li>📧 kashishmishra4025@gmail.com</li>
+                        <li>📞 +91 8591417011</li>
+                        <li>📍 Mumbai, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wanderluxe. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

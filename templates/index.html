@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderluxe - Discover Your Journey</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('packages') }}">Destinations</a></li>
+                <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                {% if session.user_id %}
+                    <span class="user-greeting">Welcome, {{ session.user_name }}!</span>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-login">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-signup">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-login">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-signup">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title"></h1>
+            <p class="hero-subtitle"></p>
+            
+            <div class="search-box">
+                <form action="{{ url_for('packages') }}" method="GET">
+                    <div class="search-inputs">
+                        <div class="input-group">
+                            <label>🔍 Destination</label>
+                            <input type="text" name="search" placeholder="Varanasi, Manali, Goa...">
+                        </div>
+                        <div class="input-group">
+                            <label>📅 Category</label>
+                            <select name="category">
+                                <option value="">All Categories</option>
+                                <option value="Spiritual">Spiritual</option>
+                                <option value="Hill Station">Hill Stations</option>
+                                <option value="Beach">Beaches</option>
+                                <option value="Cultural">Cultural</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-search">Search Tours</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="float-item float-1">🕉️</div>
+            <div class="float-item float-2">🏔️</div>
+            <div class="float-item float-3">🏖️</div>
+            <div class="float-item float-4">🛕</div>
+        </div>
+    </section>
+
+    <!-- Category Cards -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Explore By Category</h2>
+            <div class="category-grid">
+                <a href="{{ url_for('packages') }}?category=Spiritual" class="category-card">
+                    <div class="category-icon">🕉️</div>
+                    <h3>Spiritual Tours</h3>
+                    <p>Varanasi, Ayodhya, Char Dham</p>
+                </a>
+                <a href="{{ url_for('packages') }}?category=Hill Station" class="category-card">
+                    <div class="category-icon">🏔️</div>
+                    <h3>Hill Stations</h3>
+                    <p>Manali, Shimla, Mussoorie</p>
+                </a>
+                <a href="{{ url_for('packages') }}?category=Beach" class="category-card">
+                    <div class="category-icon">🏖️</div>
+                    <h3>Beach Escapes</h3>
+                    <p>Goa, Andaman, Kerala</p>
+                </a>
+                <a href="{{ url_for('packages') }}?category=Cultural" class="category-card">
+                    <div class="category-icon">🛕</div>
+                    <h3>Cultural Heritage</h3>
+                    <p>Rajasthan, Agra, Delhi</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Packages -->
+    <section class="packages-section">
+        <div class="container">
+            <h2 class="section-title">Popular Packages</h2>
+            <div class="packages-grid">
+                {% for package in packages %}
+                <div class="package-card">
+                    <div class="package-image">
+                        <img src="{{ url_for('static', filename='images/' + package[7]) }}" 
+                             alt="{{ package[1] }}" 
+                             onerror="this.src='https://in.pinterest.com/pin/154529830959059034/'">
+                        <div class="package-badge">{{ package[2] }}</div>
+                    </div>
+                    <div class="package-content">
+                        <h3>{{ package[1] }}</h3>
+                        <p class="package-destination">📍 {{ package[3] }}</p>
+                        <p class="package-description">{{ package[6][:100] }}...</p>
+                        <div class="package-highlights">
+                            {% for highlight in package[8].split('|')[:3] %}
+                            <span class="highlight-tag">{{ highlight }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="package-footer">
+                            <div class="package-price">
+                                <span class="price">₹{{ package[5] }}</span>
+                                <span class="duration">{{ package[4] }}D/{{ package[4]-1 }}N</span>
+                            </div>
+                            <a href="{{ url_for('package_details', package_id=package[0]) }}" class="btn-view">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="view-all">
+                <a href="{{ url_for('packages') }}" class="btn btn-signup">View All Packages</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Wanderluxe</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Best Prices</h3>
+                    <p>Guaranteed lowest prices with no hidden charges</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Safe & Secure</h3>
+                    <p>100% safe travel with verified partners</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍✈️</div>
+                    <h3>Expert Guides</h3>
+                    <p>Local expert guides for authentic experiences</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Round the clock customer support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Travelers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Amazing Varanasi tour! The Ganga Aarti was a life-changing experience. Highly recommend Wanderluxe!"</p>
+                    <div class="reviewer">
+                        <strong>Piyush Tripathi</strong>
+                        <span>Varanasi Tour</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Perfect honeymoon in Manali. Everything was well organized and the guide was very helpful."</p>
+                    <div class="reviewer">
+                        <strong>Shlock & Kashish</strong>
+                        <span>Manali Honeymoon</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Goa trip was fantastic! Great hotels, amazing beaches, and wonderful memories."</p>
+                    <div class="reviewer">
+                        <strong>Sanjit Varma</strong>
+                        <span>Goa Beach Paradise</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Get Exclusive Travel Deals</h2>
+            <p>Subscribe to our newsletter for special offers and travel tips</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-signup">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                     <div class="logo">
+                        <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+                    <p>Discover the spiritual and scenic beauty of India with expertly curated tour packages.</p>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📺</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual Tours</a></li>
+                        <li><a href="{{ url_for('packages') }}?category=Hill Station">Hill Stations</a></li>
+                        <li><a href="{{ url_for('packages') }}?category=Beach">Beach Packages</a></li>
+                        <li><a href="{{ url_for('packages') }}">All Destinations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li>📧 kashishmishra4025@gmail.com</li>
+                        <li>📞 +91 8591417011</li>
+                        <li>📍 Mumbai, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wanderluxe. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

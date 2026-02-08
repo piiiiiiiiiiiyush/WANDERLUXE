@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Wanderluxe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+             <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+             
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('packages') }}">Destinations</a></li>
+                <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <span class="user-greeting">{{ session.user_name }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-signup">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard-page">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Welcome, {{ session.user_name }}! 👋</h1>
+                <p>Manage your bookings and explore new destinations</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|length }}</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|selectattr('7', 'equalto', 'confirmed')|list|length }}</h3>
+                        <p>Confirmed</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|selectattr('7', 'equalto', 'pending')|list|length }}</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌍</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|map(attribute=9)|unique|list|length }}</h3>
+                        <p>Destinations</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <h2>My Bookings</h2>
+                
+                {% if bookings %}
+                <div class="bookings-grid">
+                    {% for booking in bookings %}
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <h3>{{ booking[8] }}</h3>
+                            <span class="status-badge status-{{ booking[7] }}">{{ booking[7]|title }}</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="detail-row">
+                                <span class="label">📍 Destination:</span>
+                                <span class="value">{{ booking[9] }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">📅 Travel Date:</span>
+                                <span class="value">{{ booking[4] }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">👥 Travelers:</span>
+                                <span class="value">{{ booking[5] }} Person(s)</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">💰 Total Amount:</span>
+                                <span class="value price-value">₹{{ booking[6] }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">🕐 Booked On:</span>
+                                <span class="value">{{ booking[3][:10] }}</span>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <a href="{{ url_for('package_details', package_id=booking[2]) }}" class="btn-view">View Package</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">🧳</div>
+                    <h3>No bookings yet</h3>
+                    <p>Start exploring our amazing packages and create unforgettable memories!</p>
+                    <a href="{{ url_for('packages') }}" class="btn btn-signup">Explore Packages</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wanderluxe. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ package[1] }} - Wanderluxe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+              <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+             
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('packages') }}">Destinations</a></li>
+                <li><a href="{{ url_for('packages') }}?category=Spiritual">Spiritual</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                {% if session.user_id %}
+                    <span class="user-greeting">{{ session.user_name }}</span>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-login">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-signup">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-login">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-signup">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="details-page">
+        <div class="container">
+            <div class="details-grid">
+                <div class="details-main">
+                    <div class="details-image">
+                        <img src="{{ url_for('static', filename='images/' + package[7]) }}" 
+                             alt="{{ package[1] }}"
+                             onerror="this.src='https://in.pinterest.com/pin/15692298697439332/'">
+                        <div class="details-badge">{{ package[2] }}</div>
+                    </div>
+                    
+                    <div class="details-content">
+                        <h1>{{ package[1] }}</h1>
+                        <p class="details-destination">📍 {{ package[3] }}</p>
+                        
+                        <div class="details-info">
+                            <div class="info-item">
+                                <strong>Duration:</strong> {{ package[4] }} Days / {{ package[4]-1 }} Nights
+                            </div>
+                            <div class="info-item">
+                                <strong>Category:</strong> {{ package[2] }}
+                            </div>
+                            <div class="info-item">
+                                <strong>Price:</strong> ₹{{ package[5] }} per person
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h2>About This Tour</h2>
+                            <p>{{ package[6] }}</p>
+                        </div>
+
+                        <div class="details-section">
+                            <h2>Tour Highlights</h2>
+                            <div class="highlights-list">
+                                {% for highlight in package[8].split('|') %}
+                                <div class="highlight-item">✓ {{ highlight }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="details-section">
+                            <h2>Itinerary</h2>
+                            <div class="itinerary">
+                                {{ package[9]|replace('\n', '<br>')|safe }}
+                            </div>
+                        </div>
+
+                        {% if reviews %}
+                        <div class="details-section">
+                            <h2>Customer Reviews</h2>
+                            <div class="reviews-list">
+                                {% for review in reviews %}
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <strong>{{ review[5] }}</strong>
+                                        <div class="stars">
+                                            {% for i in range(review[3]) %}⭐{% endfor %}
+                                        </div>
+                                    </div>
+                                    <p>{{ review[4] }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="details-sidebar">
+                    <div class="booking-card">
+                        <div class="booking-price">
+                            <span class="price-label">Starting from</span>
+                            <span class="price">₹{{ package[5] }}</span>
+                            <span class="price-per">per person</span>
+                        </div>
+                        
+                        {% if session.user_id %}
+                            <a href="{{ url_for('book_package', package_id=package[0]) }}" class="btn btn-signup btn-full">Book Now</a>
+                        {% else %}
+                            <p class="login-required">Please login to book this package</p>
+                            <a href="{{ url_for('login') }}" class="btn btn-signup btn-full">Login to Book</a>
+                        {% endif %}
+                        
+                        <div class="booking-features">
+                            <div class="feature-item">✓ Free Cancellation</div>
+                            <div class="feature-item">✓ Best Price Guarantee</div>
+                            <div class="feature-item">✓ 24/7 Customer Support</div>
+                            <div class="feature-item">✓ Instant Confirmation</div>
+                        </div>
+                    </div>
+
+                    <div class="help-card">
+                        <h3>Need Help?</h3>
+                        <p>Our travel experts are here to assist you</p>
+                        <div class="help-contact">
+                            <p>📞 +91 98765 43210</p>
+                            <p>📧 info@wanderluxe.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wanderluxe. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

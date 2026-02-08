@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manage Bookings - Wanderluxe</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+               <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static',filename='images/logoo.png')}}" alt="Wanderluxe Logo">
+                </div>
+                <span class="logo-text">Wanderluxe</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('packages') }}">Packages</a></li>
+                <li><a href="{{ url_for('admin_bookings') }}">Admin Panel</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <span class="user-greeting">{{ session.user_name }}</span>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-login">My Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-signup">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="admin-page">
+        <div class="container">
+            <div class="admin-header">
+                <h1>🔧 Admin Panel - Manage Bookings</h1>
+                <p>Confirm, view, or cancel customer bookings</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|length }}</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|selectattr('7', 'equalto', 'pending')|list|length }}</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|selectattr('7', 'equalto', 'confirmed')|list|length }}</h3>
+                        <p>Confirmed</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-info">
+                        <h3>{{ bookings|selectattr('7', 'equalto', 'cancelled')|list|length }}</h3>
+                        <p>Cancelled</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-content">
+                <h2>All Bookings</h2>
+                
+                {% if bookings %}
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Customer</th>
+                                <th>Package</th>
+                                <th>Destination</th>
+                                <th>Travel Date</th>
+                                <th>Travelers</th>
+                                <th>Amount</th>
+                                <th>Booked On</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr>
+                                <td><strong>#{{ booking[0] }}</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <strong>{{ booking[10] }}</strong>
+                                        <small>{{ booking[11] }}</small>
+                                    </div>
+                                </td>
+                                <td>{{ booking[8] }}</td>
+                                <td>📍 {{ booking[9] }}</td>
+                                <td>📅 {{ booking[4] }}</td>
+                                <td>👥 {{ booking[5] }}</td>
+                                <td class="price-cell">₹{{ booking[6] }}</td>
+                                <td>{{ booking[3][:10] }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ booking[7] }}">
+                                        {{ booking[7]|upper }}
+                                    </span>
+                                </td>
+                                <td class="action-buttons">
+                                    {% if booking[7] == 'pending' %}
+                                        <a href="{{ url_for('confirm_booking', booking_id=booking[0]) }}" 
+                                           class="btn-action btn-confirm"
+                                           onclick="return confirm('Confirm this booking?')">
+                                            ✅ Confirm
+                                        </a>
+                                        <a href="{{ url_for('cancel_booking', booking_id=booking[0]) }}" 
+                                           class="btn-action btn-cancel"
+                                           onclick="return confirm('Cancel this booking?')">
+                                            ❌ Cancel
+                                        </a>
+                                    {% elif booking[7] == 'confirmed' %}
+                                        <span class="badge-success">✓ Confirmed</span>
+                                    {% else %}
+                                        <span class="badge-cancelled">✗ Cancelled</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <h3>No bookings yet</h3>
+                    <p>When customers book packages, they will appear here.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wanderluxe Admin Panel. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
