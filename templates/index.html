@@ -80,27 +80,37 @@
         <div class="container">
             <h2 class="section-title">Explore By Category</h2>
             <div class="category-grid">
-                <a href="{{ url_for('packages') }}?category=Spiritual" class="category-card">
-                    <div class="category-icon">🕉️</div>
-                    <h3>Spiritual Tours</h3>
-                    <p>Varanasi, Ayodhya, Char Dham</p>
+               <a href="{{ url_for('packages') }}?category=Spiritual" class="category-card">
+                  <div class="category-icon">
+                  <img src="{{ url_for('static', filename='images/icons/spiritual.png') }}" alt="Spiritual Tours">
+             </div>
+                <h3>Spiritual Tours</h3>
+                <p>Varanasi, Ayodhya, Char Dham</p>
                 </a>
                 <a href="{{ url_for('packages') }}?category=Hill Station" class="category-card">
-                    <div class="category-icon">🏔️</div>
-                    <h3>Hill Stations</h3>
-                    <p>Manali, Shimla, Mussoorie</p>
-                </a>
-                <a href="{{ url_for('packages') }}?category=Beach" class="category-card">
-                    <div class="category-icon">🏖️</div>
-                    <h3>Beach Escapes</h3>
-                    <p>Goa, Andaman, Kerala</p>
-                </a>
-                <a href="{{ url_for('packages') }}?category=Cultural" class="category-card">
-                    <div class="category-icon">🛕</div>
-                    <h3>Cultural Heritage</h3>
-                    <p>Rajasthan, Agra, Delhi</p>
-                </a>
-            </div>
+        <div class="category-icon">
+            <img src="{{ url_for('static', filename='images/icons/hill station.png') }}" alt="Hill Stations">
+     </div>
+           <h3>Hill Stations</h3>
+          <p>Manali, Shimla, Mussoorie</p>
+         </a>
+    
+    <a href="{{ url_for('packages') }}?category=Beach" class="category-card">
+        <div class="category-icon">
+            <img src="{{ url_for('static', filename='images/icons/beach.png') }}" alt="Beach Escapes">
+        </div>
+        <h3>Beach Escapes</h3>
+        <p>Goa, Andaman, Kerala</p>
+    </a>
+    
+    <a href="{{ url_for('packages') }}?category=Cultural" class="category-card">
+        <div class="category-icon">
+            <img src="{{ url_for('static', filename='images/icons/cultural.png') }}" alt="Cultural Heritage">
+        </div>
+        <h3>Cultural Heritage</h3>
+        <p>Rajasthan, Agra, Delhi</p>
+    </a>
+</div>
         </div>
     </section>
 

@@ -417,8 +417,24 @@ nav {
 }
 
 .category-icon {
-    font-size: 4rem;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100px;
+    margin: 0 auto 1rem;
+}
+
+.category-icon img {
+    width: 200px;
+    height: 180px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-icon img {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .category-card h3 {
