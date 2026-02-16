@@ -380,10 +380,6 @@ def cancel_booking(booking_id):
 
 # ADMIN ROUTES - Booking Management
 
-@app.route("/")
-def home():
-    return "WANDERLUXE LIVE SUCCESSFULLY"
-
 
 if __name__ == "__main__":
     init_db()
